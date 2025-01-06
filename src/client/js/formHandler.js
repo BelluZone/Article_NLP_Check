@@ -15,15 +15,34 @@ function handleSubmit(event) {
     const formText = document.getElementById('name').value;
 
     // This is an example code that checks the submitted name. You may remove it from your code
-    checkForName(formText);
-    
+    // checkForName(formText);
+
     // Check if the URL is valid
- 
-        // If the URL is valid, send it to the server using the serverURL constant above
-      
+
+    // If the URL is valid, send it to the server using the serverURL constant above
+    console.log("Clicking Submit works");
+    
+    getSentiment(formText);
 }
 
 // Function to send data to the server
+
+async function getSentiment(targetUrl) {
+    try {
+        const res = await fetch(serverURL + "/sendText", {
+            method: 'POST',
+            headers: {
+                'contentType': 'application/json'
+            },
+            body: JSON.stringify(targetUrl)
+        });
+
+        const data = await res.json();
+        console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // Export the handleSubmit function
 export { handleSubmit };
