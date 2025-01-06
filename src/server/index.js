@@ -1,4 +1,5 @@
 var path = require('path');
+var aylien = require("aylien-news-api")
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
@@ -14,6 +15,10 @@ app.use(bodyParser.json());
 console.log(__dirname);
 
 // Variables for url and api key
+var textapi = new aylien({
+    application_id: process.dotenv.API_ID,
+    application_key: process.dotenv.API_KEY
+});
 
 
 app.get('/', function (req, res) {
