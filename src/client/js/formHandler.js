@@ -1,4 +1,5 @@
 // Import URL checker function
+import { updateUI } from './updateResultstoUI';
 import { isValidUrl } from './urlChecker';
 
 // If working on Udacity workspace, update this with the Server API URL e.g. `https://wfkdhyvtzx.prod.udacity-student-workspaces.com/api`
@@ -20,31 +21,37 @@ async function handleSubmit(event) {
     // If the URL is valid, send it to the server using the serverURL constant above
     if (isValid) {
         try {
-            const response = await fetch(serverURL + '/getSentiment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ formText }), // Send the URL to the server
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Sentiment Analysis Result:', data);
+            const sentiments = await sendUrlToServer(formText);
+            updateUI(sentiments);
         } catch (error) {
-            console.error('Error analyzing sentiment:', error);
+            throw new Error("could not fetch data from API");
         }
     } else {
-        throw new Error('Not a valid URL, please check and resubmit!');
+        alert('Not a valid URL, please check and resubmit!');
     }
 }
 
-// Example usage
-
 // Function to send data to the server
+async function sendUrlToServer(url) {
+    try {
+        const response = await fetch(serverURL + '/getSentiment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ url }), // Send the URL to the server
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error analyzing sentiment:', error);
+    }
+}
 
 // Export the handleSubmit function
 export { handleSubmit };

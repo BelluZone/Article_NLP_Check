@@ -22,13 +22,13 @@ app.get('/api/test', function (req, res) {
 });
 
 app.post('/api/getSentiment', async function (req, res) {
-    const { formText } = req.body;
-    console.log(formText);
+    const { url } = req.body;
+    console.log(url);
     
     try {
         const formdata = new FormData();
         formdata.append("key", process.env.API_KEY);
-        formdata.append("url", formText);
+        formdata.append("url", url);
 
         const requestOptions = {
             method: 'POST',
