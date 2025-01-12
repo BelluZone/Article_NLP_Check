@@ -18,7 +18,34 @@ app.get('/', function (req, res) {
 });
 
 app.get('/api/test', function (req, res) {
-    res.send("This is the server API page, you may access its services via the client app.");
+    res.send("Just a Test");
+});
+
+app.post('/api/getSentiment', async function (req, res) {
+    const { formText } = req.body;
+    console.log(formText);
+    
+    try {
+        const formdata = new FormData();
+        formdata.append("key", process.env.API_KEY);
+        formdata.append("url", formText);
+
+        const requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        const fetchResponse = await fetch("https://api.meaningcloud.com/sentiment-2.1", requestOptions);
+        const responseBody = await fetchResponse.json();
+
+        console.log(fetchResponse, responseBody);
+        
+        res.status(fetchResponse.status).send(responseBody); // Send the response back to the client
+    } catch (error) {
+        console.error('Error fetching sentiment:', error);
+        res.status(500).send({ error: 'An error occurred while fetching sentiment.' });
+    }
 });
 
 // POST Route
