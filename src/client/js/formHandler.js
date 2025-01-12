@@ -3,12 +3,12 @@ import { checkForName } from './nameChecker'
 
 // If working on Udacity workspace, update this with the Server API URL e.g. `https://wfkdhyvtzx.prod.udacity-student-workspaces.com/api`
 // const serverURL = 'https://wfkdhyvtzx.prod.udacity-student-workspaces.com/api'
-const serverURL = 'https://localhost:8000/api'
+const serverURL = 'http://localhost:8001/api'
 
 const form = document.getElementById('urlForm');
 form.addEventListener('submit', handleSubmit);
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
     event.preventDefault();
 
     // Get the URL from the input field
@@ -21,28 +21,18 @@ function handleSubmit(event) {
 
     // If the URL is valid, send it to the server using the serverURL constant above
     console.log("Clicking Submit works");
-    
-    getSentiment(formText);
+
+    fetch(serverURL+"/test")
+        .then(response => response.text())  // Read the response as text
+        .then(data => {
+            console.log('Response from server:', data);  // Log the response
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);  // Log any errors
+        });
 }
 
 // Function to send data to the server
-
-async function getSentiment(targetUrl) {
-    try {
-        const res = await fetch(serverURL + "/sendText", {
-            method: 'POST',
-            headers: {
-                'contentType': 'application/json'
-            },
-            body: JSON.stringify(targetUrl)
-        });
-
-        const data = await res.json();
-        console.log(data);
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 // Export the handleSubmit function
 export { handleSubmit };
