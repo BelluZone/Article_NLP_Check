@@ -6,8 +6,10 @@ import { isValidUrl } from './urlChecker';
 // const serverURL = 'https://wfkdhyvtzx.prod.udacity-student-workspaces.com/api'
 const serverURL = 'http://localhost:8001/api'
 
-const form = document.getElementById('urlForm');
-form.addEventListener('submit', handleSubmit);
+window.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('urlForm');
+    form.addEventListener('submit', handleSubmit);
+})
 
 async function handleSubmit(event) {
     event.preventDefault();
@@ -50,9 +52,10 @@ async function sendUrlToServer(url) {
         return data;
     } catch (error) {
         console.error('Error analyzing sentiment:', error);
+        throw error;
     }
 }
 
 // Export the handleSubmit function
 export { handleSubmit };
-
+export { sendUrlToServer };

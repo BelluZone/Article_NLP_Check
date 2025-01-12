@@ -1,11 +1,18 @@
 function updateUI(sentiments) {
     const resultsForm = document.getElementById('results');
+    const resultsString = createStringForDom(sentiments);
+
+    resultsForm.innerHTML = resultsString;
+    return resultsString;
+}
+
+function createStringForDom(sentiments) {
     const dataToShow = {
         Agreement: sentiments.agreement,
         Confidence: sentiments.confidence,
         Irony: sentiments.irony,
         Polarity: sentiments.score_tag,
-        subjectivity: sentiments.subjectivity
+        Subjectivity: sentiments.subjectivity
     }
 
     switch (sentiments.score_tag) {
@@ -39,7 +46,7 @@ function updateUI(sentiments) {
             stringToAppend += `<p>${key}: ${dataToShow[key]}</p>`;
         }
     }
-    resultsForm.innerHTML = stringToAppend;
+    return stringToAppend;
 }
 
-export { updateUI };
+export { updateUI, createStringForDom };
