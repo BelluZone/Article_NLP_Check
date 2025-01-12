@@ -1,3 +1,6 @@
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+
 body {
     display: flex;
     flex-direction: column;
@@ -11,4 +14,13 @@ main {
 section {
     max-width: 800px;
     margin: 50px auto;
+    
+    #results {
+        padding: 25px 50px;
+    }
+
+    strong {
+        font-size: large;
+        font-weight: bold;
+    }
 }

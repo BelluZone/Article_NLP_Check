@@ -1,7 +1,19 @@
+@use 'base';
+
 form {
-    border: 1px solid #545454;
+    border: 1px solid base.$primary-color;
     border-radius: 3px;
     padding: 40px;
+
+    button {
+        background-color: base.$secondary-color;
+        border-radius: 10px;
+        padding: 10px 25px 10px;
+
+        &:hover {
+            background-color: base.$primary-color;
+        }
+    }
 }
 
 input {
